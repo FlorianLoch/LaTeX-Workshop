@@ -14,6 +14,7 @@ import {Parser} from './components/parser'
 import {Linter} from './components/linter'
 import {Cleaner} from './components/cleaner'
 import {Counter} from './components/counter'
+import {Enquoter} from './components/enquoter'
 
 import {Completer} from './providers/completion'
 import {CodeActions} from './providers/codeactions'
@@ -160,6 +161,7 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((e: vscode.TextDocumentChangeEvent) => {
         if (extension.manager.isTex(e.document.fileName)) {
             lintActiveFileIfEnabledAfterInterval(extension)
+            extension.enquoter.handleContentChange(e)
         }
     }))
 
@@ -235,6 +237,7 @@ export class Extension {
     counter: Counter
     codeActions: CodeActions
     nodeProvider: SectionNodeProvider
+    enquoter: Enquoter
 
     constructor() {
         this.extensionRoot = path.resolve(`${__dirname}/../../`)
@@ -252,6 +255,7 @@ export class Extension {
         this.counter = new Counter(this)
         this.codeActions = new CodeActions(this)
         this.nodeProvider = new SectionNodeProvider(this)
+        this.enquoter = new Enquoter(this)
 
         this.logger.addLogMessage(`LaTeX Workshop initialized.`)
     }

@@ -381,6 +381,16 @@
           "type": "boolean",
           "default": true,
           "description": "Display LaTeX Workshop debug log in output panel.\nThis property defines whether LaTeX Workshop will output its debug log to the log panel."
+        },
+        "latex-workshop.enquote.active": {
+          "type": "string",
+          "enum": [
+            "true",
+            "false",
+            "auto"
+          ],
+          "default": "auto",
+          "description": "Enables automatic conversion of '\"' to '\\enquote' using the csquotes package. 'auto' enables the feature in case the root document containts '\\usepackage{csquotes}'."
         }
       }
     },
